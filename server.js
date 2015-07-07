@@ -36,7 +36,7 @@ function insertTemp(data){
 
 // Read current temperature from sensor
 function readTemp(callback){
-   fs.readFile('/sys/bus/w1/devices/28-00000400a88a/w1_slave', function(err, buffer)
+   fs.readFile('/sys/bus/w1/devices/' + process.env.SENSOR_ID + '/w1_slave', function(err, buffer)
 	{
       if (err){
          console.error(err);
@@ -166,12 +166,25 @@ var server = http.createServer(
 		}
 });
 
+if (!process.env.SENSOR_ID) {
+	throw new Error('SENSOR_ID environment variable must be defined');
+}
+
+console.log('Temp Sensor: ' + process.env.SENSOR_ID);
+
 // Start temperature logging (every 5 min).
-var msecs = (60 * 5) * 1000; // log interval duration in milliseconds
+var msecs = process.env.LOG_INTERVAL || (60 * 5) * 1000; // log interval duration in milliseconds
 logTemp(msecs);
 // Send a message to console
 console.log('Server is logging to database at '+msecs+'ms intervals');
 // Enable server
-server.listen(8000);
-// Log message
-console.log('Server running at http://localhost:8000');
+var httpPort = process.env.HTTP_PORT;
+server.listen(httpPort)
+server.on('error', function(err) {
+	console.log('ERROR: ' + JSON.stringify(err, null, ' '));
+	server.close();
+	process.exit(1);
+});
+server.on('listening', function() {
+	console.log('Server listening on localhost:' + httpPort);
+});
