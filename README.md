@@ -29,7 +29,7 @@ Install/Setup
 2. Run `load_gpio.sh` script as root to load kernel modules for the sensor
 3. Run the `build_database.sh` script to create "piTemps.db". Note this wil drop any existing database of the same name in the directory
 4. Open "server.js" and edit line 35 to read the serial number of your sensor in /sys/bus.
-5. In a terminal run "node server.js" to start the server.
+5. In a terminal run "node server.js" to start the server. `env $(cat app.env-dist | xargs) node server.js`
 6. Open a web browser on the Pi and go to http://localhost:8000/temperature_plot.htm to see a plot of current temperature. Go to http://localhost:8000/temperature_log.htm to see a plot of logged temperature. 
 
 References

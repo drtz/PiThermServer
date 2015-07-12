@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "env $(cat app.env | xargs) forever server.js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,14 @@
     "GPIO",
     "Sensor"
   ],
-  "author": "Tom Holderness",
+  "contributors": [
+    {
+      "name": "Tom Holderness"
+    },
+    {
+      "name": "Danny Raetzsch"
+    }
+  ],
   "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/talltom/PiThermServer/issues"
@@ -28,6 +35,7 @@
   "homepage": "https://github.com/talltom/PiThermServer",
   "dependencies": {
     "node-static": "^0.7.6",
+    "sendgrid": "^1.9.0",
     "sqlite3": "^3.0.8"
   }
 }

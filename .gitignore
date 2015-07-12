@@ -3,3 +3,5 @@ node_modules
 *.db
 *.log
 *.db-journal
+app.env
+npm-debug.log*
